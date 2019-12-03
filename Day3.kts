@@ -15,12 +15,11 @@ fun getDir(dir: Char): Pair<Int, Int>
     else -> throw Exception("Shit went ham")
   }
 
-fun trace(route: List<Pair<Char, Int>>): List<Pair<Int, Int>> {
-  return route.fold(listOf(Pair(0, 0))) { acc, (dir, dist) ->
-    val normalVector = getDir(dir)
-    acc.plus((1..dist).map { acc.last() + normalVector * it })
-  }.drop(1)
-}
+fun trace(route: List<Pair<Char, Int>>): List<Pair<Int, Int>>
+  = route.fold(listOf(Pair(0, 0))) { acc, (dir, dist) ->
+      val normalVector = getDir(dir)
+      acc.plus((1..dist).map { acc.last() + normalVector * it })
+    }.drop(1)
 
 fun solveA(routeA: List<Pair<Char, Int>>, routeB: List<Pair<Char, Int>>): Int? {
   val wireA = trace(routeA)
@@ -47,10 +46,10 @@ val testB = listOf("R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R5
 val testC = listOf("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51", "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7").map { it.split(",").map { Pair(it[0], it.substring(1).toInt()) } }
 val cases = listOf(testA, testB, testC, inputs)
 
-for ( case in cases) { // A: 6, B: 159, C: 135, res: 1626
-  println(solveA(case[0], case[1]))
+for ( (routeA, routeB) in cases) { // A: 6, B: 159, C: 135, res: 1626
+  println(solveA(routeA, routeB))
 }
 
-for ( case in cases) { // A: 30, B: 610, C: 410, res: 27330
-  println(solveB(case[0], case[1]))
+for ( (routeA, routeB) in cases) { // A: 30, B: 610, C: 410, res: 27330
+  println(solveB(routeA, routeB))
 }
