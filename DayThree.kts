@@ -1,21 +1,25 @@
 import java.io.File
 
-fun trace(route: List<Pair<Char, Int>>, log: List<Pair<Int, Int>> = listOf(Pair(0, 0))): List<Pair<Int, Int>> {
-  if (route.size == 0) return log.subList(1, log.size) // Omits the start coord which is always (0, 0)
+operator fun Pair<Int, Int>.times(scalar: Int): Pair<Int, Int>
+  = Pair(this.first * scalar, this.second * scalar)
 
-  val cur = log.last()
-  val (dir, dist) = route.first()
+operator fun Pair<Int, Int>.plus(vector: Pair<Int, Int>): Pair<Int, Int>
+  = Pair(this.first + vector.first, this.second + vector.second)
 
-  val newLog = when (dir) {
-    'R' -> (1..dist).map { Pair(cur.first + it, cur.second) }
-    'L' -> (1..dist).map { Pair(cur.first - it, cur.second) }
-    'U' -> (1..dist).map { Pair(cur.first, cur.second + it) }
-    'D' -> (1..dist).map { Pair(cur.first, cur.second - it) }
+fun getDir(dir: Char): Pair<Int, Int>
+  = when (dir) {
+    'R' -> Pair(1, 0)
+    'L' -> Pair(-1, 0)
+    'U' -> Pair(0, 1)
+    'D' -> Pair(0, -1)
     else -> throw Exception("Shit went ham")
   }
 
-  val remaining = route.subList(1, route.size)
-  return trace(remaining, log + newLog)
+fun trace(route: List<Pair<Char, Int>>): List<Pair<Int, Int>> {
+  return route.fold(listOf(Pair(0, 0))) { acc, (dir, dist) ->
+    val normalVector = getDir(dir)
+    acc.plus((1..dist).map { acc.last() + normalVector * it })
+  }.drop(1)
 }
 
 fun solveA(routeA: List<Pair<Char, Int>>, routeB: List<Pair<Char, Int>>): Int? {
@@ -27,8 +31,9 @@ fun solveA(routeA: List<Pair<Char, Int>>, routeB: List<Pair<Char, Int>>): Int? {
 
 fun solveB(routeA: List<Pair<Char, Int>>, routeB: List<Pair<Char, Int>>): Int {
   val wireA = trace(routeA)
-  val wireB = trace(routeB).toSet()
-  val man = wireA.mapIndexed { index, it -> if (wireB.indexOf(it) > -1 ) index + wireB.indexOf(it) + 2 else -1 }
+  val wireB = trace(routeB)
+  val setWireB = wireB.toSet()
+  val man = wireA.mapIndexed { index, it -> if (setWireB.contains(it)) index + wireB.indexOf(it) + 2 else -1 }
   return man.first { it > -1 }
 }
 
