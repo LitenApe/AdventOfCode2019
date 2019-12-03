@@ -32,8 +32,8 @@ fun solveA(routeA: List<Pair<Char, Int>>, routeB: List<Pair<Char, Int>>): Int? {
 fun solveB(routeA: List<Pair<Char, Int>>, routeB: List<Pair<Char, Int>>): Int {
   val wireA = trace(routeA)
   val wireB = trace(routeB)
-  val setWireB = wireB.toSet()
-  val man = wireA.mapIndexed { index, it -> if (setWireB.contains(it)) index + wireB.indexOf(it) + 2 else -1 }
+  val intersections = wireA.intersect(wireB)
+  val man = wireA.mapIndexed { index, it -> if (intersections.contains(it)) index + wireB.indexOf(it) + 2 else -1 }
   return man.first { it > -1 }
 }
 
