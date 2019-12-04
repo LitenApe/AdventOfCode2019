@@ -39,7 +39,7 @@ fun solveB(routeA: List<Pair<Char, Int>>, routeB: List<Pair<Char, Int>>): Int {
 fun readFile(filename: String): List<List<Pair<Char, Int>>>
   = File(filename).readLines().subList(0, 2).map { it.split(",").map { Pair(it[0], it.substring(1).toInt()) } } 
 
-val inputs = readFile("./data/day3.txt")
+val inputs = readFile("./data/day03.txt")
 
 val testA = listOf("R8,U5,L5,D3", "U7,R6,D4,L4").map { it.split(",").map { Pair(it[0], it.substring(1).toInt()) } }
 val testB = listOf("R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R55,D58,R83").map { it.split(",").map { Pair(it[0], it.substring(1).toInt()) } }

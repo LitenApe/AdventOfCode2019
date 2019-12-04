@@ -29,7 +29,7 @@ fun computer(program: List<Int>, pos: Int = 0): Int {
 fun readFile(filename: String): MutableList<Int>
   = File(filename).useLines() { it.first().split(",") }.map{ it.toInt() }.toMutableList()
 
-val inputs = readFile("./data/day2.txt")
+val inputs = readFile("./data/day02.txt")
 
 val partA = inputs.toMutableList().also { it.set(1, 12) }.also { it.set(2, 2) }
 println("Part One: " + computer(partA.toList())) // => 4090701

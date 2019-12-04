@@ -14,6 +14,6 @@ fun readFile(filename: String): List<Int>
     .readLines()
     .map { it.toInt() }
 
-val inputs = readFile("./data/day1.txt")
+val inputs = readFile("./data/day01.txt")
 println("Part One: " + solve(inputs, ::calcFuel)) // => 3399394
 println("Part Two: " + solve(inputs, ::calcFuelRec)) // => 5096223
