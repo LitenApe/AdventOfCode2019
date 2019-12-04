@@ -5,7 +5,7 @@ fun ascending(value: String): Boolean
 
 // permitations with groups and ascending: 1 729
 val adjacent = Regex("(\\d)\\1")
-val solveA = (min until max).toList().map { it.toString() }.filter { ascending(it) && adjacent.containsMatchIn(it) }
+val solveA = (min until max).toList().map { it.toString() }.filter { ascending(it) }.filter { adjacent.containsMatchIn(it) }
 
 // permutations with group of two: 1 172
 val adjacents = Regex("(\\d)\\1+")
