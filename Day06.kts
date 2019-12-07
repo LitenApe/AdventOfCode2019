@@ -6,12 +6,8 @@ fun buildPath(current: String, orbitMap: Map<String, String>): List<String>
 fun jumpDistance(posOne: String, posTwo: String, orbitMap: Map<String, String>): Int {
   val pathOne = buildPath(posOne, orbitMap).toMutableList()
   val pathTwo = buildPath(posTwo, orbitMap).toMutableList()
-
-  while (pathOne.first() == pathTwo.first()) {
-    pathOne.removeAt(0)
-    pathTwo.removeAt(0)
-  }
-  return pathOne.size + pathTwo.size - 2
+  val common = pathOne.intersect(pathTwo)
+  return (pathOne.size + pathTwo.size - 2) - (common.size * 2)
 }
 
 fun readFile(filename: String): Map<String, String>
