@@ -1,15 +1,9 @@
 import java.io.File
 
-fun calculateChecksum(layer: Map<Char, List<Pair<Char, Int>>>): Pair<Int, Int>
-  = Pair(layer.get('0')!![0].second, layer.get('1')!![0].second * layer.get('2')!![0].second)
-
 fun getChecksum(layers: List<String>): Int
-  = layers.map { it.toCharArray().toList() }
-      .map { it.groupBy { it } }
-      .map { it.map { it.key to it.value.size } }
-      .map { it.groupBy { it.first } }
-      .map { calculateChecksum(it) }
-      .sortedWith( compareBy( { it.first } ) )[0].second
+  = layers
+    .map { Pair(it.count { it == '0' }, it.count { it == '1' } * it.count { it == '2' }) }
+    .minBy { it.first }!!.second
 
 fun decodeImage(layers: List<String>): List<String> {
   var image = layers[0].toCharArray().toList()
