@@ -5,13 +5,14 @@ fun getChecksum(layers: List<String>): Int
     .map { Pair(it.count { it == '0' }, it.count { it == '1' } * it.count { it == '2' }) }
     .minBy { it.first }!!.second
 
-fun decodeImage(layers: List<String>): List<String> {
-  var image = layers[0].toCharArray().toList()
-  for ( layer in layers ) {
-    image = layer.mapIndexed { index, value -> if (image.get(index) == '2') value else image.get(index) }
-  }
-  return image.joinToString("").replace('0', ' ').chunked(25)
-}
+fun decodeImage(layers: List<String>): List<String>
+  = layers
+    .reduce { acc, layer -> (acc zip layer)
+      .map { (x, y) -> if (x == '2') y else x }
+      .joinToString("")
+    }
+    .replace('0', ' ')
+    .chunked(25)
 
 fun readFile(filename: String)
   = File(filename)
@@ -25,10 +26,10 @@ val image = decodeImage(input)
 println(checksum)
 for ( layer in image ) println(layer)
 /* 2210
- 11   11  1111  11  1111 
-1  1 1  1 1    1  1 1    
-1    1    111  1    111  
-1    1 11 1    1 11 1    
-1  1 1  1 1    1  1 1    
- 11   111 1111  111 1111 
+ 11   11  1111  11  1111
+1  1 1  1 1    1  1 1
+1    1    111  1    111
+1    1 11 1    1 11 1
+1  1 1  1 1    1  1 1
+ 11   111 1111  111 1111
  */
